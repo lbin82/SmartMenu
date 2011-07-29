@@ -1,0 +1,175 @@
+﻿<!-- cache mode -->
+<!--<html manifest="/test/smartmenu.manifest">-->
+<!-- cache mode end -->
+<!-- direct mode -->
+<html>
+<!-- direct mode end -->
+  <head>
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="apple-touch-startup-image" href="../res/images/python-ico.png" />
+    <link rel="stylesheet" href="tetris.css" type="text/css" media="screen, mobile" title="main" charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+    <script language="javascript" src="../res/js/db.js"></script>
+    <script language="javascript" src="../res/js/jquery.min.js"></script>
+    <script language="javascript" src="../res/js/image.js"></script>
+    <link rel="apple-touch-icon" href="../res/images/python-ico.png" />
+    <title>IMAGE 测试页面</title>
+
+  </head>
+  <body>
+    <h1>IMAGE 测试</h1>
+<hr>
+<ul>
+    <li><a href="#" onclick="test_support()">支持测试</a></li>
+<li><a href="#" onclick="test_logic()">逻辑测试</a></li>
+</ul>
+<hr>
+<h3>测试区</h3>
+<canvas id="debug" width="150" height="150"></canvas>
+
+<canvas id="logo" dbid="1"></canvas>
+<canvas id="python" dbid="2"></canvas>
+<canvas id="php" dbid="4"></canvas>
+<canvas id="flash" dbid="3"></canvas>
+<hr>
+<h3>调试区域</h3>
+<div id="debuginfo">
+
+</div>
+<script language="javascript">
+function test_support(){
+    if(SMART_IMAGE._support_test()){
+	alert("支持图片操作");
+    }else{
+	alert("不支持图片操作");
+    }
+}
+
+/**
+* IMAGE TABLE SCHEMA
+* id int autoincrement PRIMARY KEY 
+* url 
+* 
+*/
+
+function show_error(msg){
+//alert(msg);
+$('#debuginfo').append("<p>" + msg + "</p>")
+}
+/** 
+* hmm,测试一下创建图片的逻辑.这是我的思想:
+* 页面加载的时候,需要告诉我,okey,这个页面上有多少图片元素是需要处理的(保存,更新, 甚至删除)
+* 那么页面中,需要服务器端帮我定几个全局变量.
+* 例如:
+*     var ADD = [{'dbid' : 数据库中的编号,最好服务器和客户端同步, 'srcid' : 图片的id, 'srcurl' : 图片的url,这里指的是URI.}, {}];
+*     var DEL = [dbid1, dbid2, dbid3];
+*     var MOD = [{'dbid' : 数据库中的编号,最好服务器和客户端同步, 'srcid' : 图片的id, 'srcurl' : 图片的url,这里指的是URI.}, {}];
+* 
+* @return 
+*/
+var ADD = [{'dbid' : 1, 'srcid' : 'logo', 'srcurl' : 'http://192.168.0.105/res/images/logo.png', 'hash' : 'logo'}, {'dbid' : 2, 'srcid' : 'python', 'srcurl' : 'http://192.168.0.105/res/images/python.png', 'hash' : 'python'}, {'dbid' : 3, 'srcid' : 'flash', 'srcurl' : 'http://192.168.0.105/res/images/flash.png', 'hash' : 'flash'}, {'dbid' : 4, 'srcid' : 'php', 'srcurl' : 'http://192.168.0.105/res/images/php.png', 'hash' :  'php'}];
+function test_logic(){
+var sql = "create table if not exists smart_menu(id INTEGER primary key AUTOINCREMENT, page TEXT NULL, pageid TEXT NOT NULL, mash TEXT NOT NULL, data TEXT NOT NULL, reserve_1 INTEGER NULL, reserve_2 TEXT NULL);";
+SMART_DB.initial();
+SMART_DB.build_db(sql, [], 0, 0, function(){
+// 创建成功.开始搜索页面上的元素.
+search_elements();
+}, function(transaction, error){
+// 表存在也会导致错误.所以这里还是不理睬它了.在写入的时候再做处理吧.
+show_error('对不起,系统故障,请换一台设备尝试' + error.message);
+search_elements();
+return true;
+});
+}
+function search_elements(){
+var imgs = document.getElementsByTagName('canvas');
+var UDB = {};
+for(var i = 0; i < ADD.length; i++){
+   UDB[ADD[i]['dbid']] = ADD[i];
+}
+var dbids = [];
+for(var i = 0; i < imgs.length; i++){
+var ele = $(imgs[i]);
+if(ele.attr('dbid')){
+dbids.push(ele.attr('dbid'));
+}
+}
+var sql = "select id, data, pageid from smart_menu where id in(";
+for(var i = 0; i < dbids.length - 1; i++){
+sql += "?,";
+}
+sql += "?);";
+SMART_DB.run_sql(sql, dbids, function(trans, results){
+var DDB = {};
+for(var i = 0; i < results.rows.length; i++){
+var row = results.rows.item(i);
+DDB[row['id']] = row;
+show_error(row['id']);
+}
+for(var i = 0; i < ADD.length; i++){
+if(!DDB[ADD[i]['dbid']]){
+try{
+var img = new Image();
+img.info = ADD[i];
+img.onload = function(){
+try{
+var canvas = document.getElementById(this.info["srcid"]);
+var ctx = canvas.getContext('2d');
+canvas.width = img.width;
+canvas.height = img.height;
+ctx.drawImage(this, 0, 0);
+// add it, and save it
+var imgdata = canvas.toDataURL();
+var sql = "insert into smart_menu(id, page, pageid, mash, data) values (?, ?, ?, ?, ?)";
+var param = [];
+param.push(this.info['dbid']);
+param.push(document.location.href || "");
+param.push(this.info['srcid']);
+param.push(this.info['hash']);
+param.push(imgdata);
+SMART_DB.run_sql(sql, param, function(trans, result){
+show_error("STORE SUCESS");
+}, function(trans, error){
+show_error(error.message);
+});
+}catch(e){
+show_error(e.message);
+}
+}
+img.src = ADD[i]['srcurl'];
+}catch(e){
+show_error(e.message);
+}
+//show_error(ADD[i]['srcurl']);
+}else{
+// IN DB
+//show_error('IT IN DB');
+var img = new Image();
+img.info = DDB[ADD[i]['dbid']];
+img.onload = function(){
+try{
+var canvas = document.getElementById(this.info["pageid"]);
+var ctx = canvas.getContext('2d');
+canvas.width = img.width;
+canvas.height = img.height;
+ctx.drawImage(this, 0, 0);
+}catch(e){
+show_error(e.message);
+}
+}
+img.src = DDB[ADD[i]['dbid']]['data'];
+}// end of else
+}// end of for
+}, function(trans, error){
+show_error('系统异常,请更换一台设备' + error.message);
+});
+}
+</script>
+</body>
+</html>

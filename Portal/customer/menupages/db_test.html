@@ -1,0 +1,114 @@
+﻿<html>
+  <head>
+    <title>DB 测试页面</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script language="javascript" src="../res/js/db.js"></script>
+  </head>
+  <body>
+    <h1>DB测试</h1>
+<hr>
+<ul>
+    <li><a href="#" onclick="test_support()">支持测试</a></li>
+    <li><a href="#" onclick="test_config()">默认链接测试</a></li>
+    <li><a href="#" onclick="test_config(1)">特殊参数链接测试</a></li>
+    <li><a href="#" onclick="test_createable()">创建表尝试</a></li>
+    <li><a href="#" onclick="test_insert()">写入数据测试</a></li>
+    <li><a href="#" onclick="test_insert(1)">参数类型数据测试</a></li>
+    <li><a href="#" onclick="test_transaction()">会话测试</a></li>
+    <li><a href="#" onclick="test_select()">搜索表测试</a></li>
+
+</ul>
+    <script language="javascript">
+function test_support(){
+    if(SMART_DB._support_test()){
+	alert("支持数据库");
+    }else{
+	alert("不支持数据库");
+    }
+}
+
+function test_config(params){
+    var ret = 0;
+    if(!params){
+	ret = SMART_DB.initial();
+    } else {
+	ret = SMART_DB.initial({dbname : 'smartmenu', version : '2.0', desc : 'from test', size : 12 * 1024 * 1024});
+    }
+    switch(ret){
+    case 1 : {alert("初始化成功");}break;
+    case -1 : {alert("不支持数据库");}break;
+    case -2 : {alert("不支持的数据库版本.");}break;
+    case -3 : {alert("打开异常,但是不知道错在哪里了.");}break;
+    default: {alert("WTF?");}
+    }
+}
+
+function test_createable(){
+test_config(1);
+    var schema = 'CREATE TABLE people( '
+	+ 'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, '
+	+ 'name TEXT NOT NULL DEFAULT "John Doe",'
+	+ 'shirt TEXT NOT NULL DEFAULT "Purple");';
+
+    SMART_DB.build_db(schema, [], 0, 0, function(){alert("表创建成功");}, function(transaction, error){
+alert("表创建失败");
+for(var key in error){
+alert(error[key]); 
+}
+return true;
+});
+}
+
+function test_transaction(){
+var sqls = [];
+sqls.push('INSERT INTO people(`name`, `shirt`) values ("TransUnit A", "Blue")');
+sqls.push('INSERT INTO people(`name`, `shirt`) values ("TransUnit B", "Buzy")');
+sqls.push('INSERT INTO people(`name`, `shirt`) values ("TransUnit C", "Green")');
+sqls.push('INSERT INTO people(`name`, `shirt`) values ("TransUnit D", "Black")');
+sqls.push('INSERT INTO people(`name`, `shirt`) values ("TransUnit E", "Little Apple")');
+sqls.push('INSERT INTO people(`name`, `shirt`) values ("TransUnit F", "Purple")');
+test_config(1);
+SMART_DB.run_trans(sqls, function(transaction, error){alert("Transaction Success");}, function(transaction, error){
+for(var k in error){
+alert("Transaction Error");
+alert(error[k]);
+}
+});
+
+}
+
+
+function test_insert(type){
+test_config(1);
+var sql = 'INSERT INTO people(`name`, `shirt`) values ("Alva.Yang", "Red")';;
+var parram = [];
+if(type == 1){
+sql = 'INSERT INTO people(`name`, `shirt`) values (?, ?)';
+parram = ['Alvayang', 'Yellow'];
+}
+var z = SMART_DB.run_sql(sql, parram, function(transaction, error){alert("写入测试成功");}, 
+function(transaction, error)
+{
+alert("写入测试失败");
+alert(error);
+return true;}
+);
+}
+
+function test_select(){
+test_config(1);
+var sql = 'SELECT name, shirt FROM people';
+var parram = [];
+SMART_DB.run_sql(sql, parram, function(transaction, results) {
+for(var i = 0; i < results.rows.length; i++){
+var row = results.rows.item(i);
+alert(row['name']);
+alert(row['shirt']);
+}
+}, function(transaction, error){
+alert(error);
+});
+}
+    </script>
+  </body>
+</html>
