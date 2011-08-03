@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>重新加载资源</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no">
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script language="javascript" src="loaddb.js"></script>
+  </head>
+  <body>
+    <h1>加载静态文件</h1>
+    <hr>
+    <ul id="debuginfo">
+    </ul>
+    <script language="javascript">
+
+      function _reload_ready(){
+     
+      if(typeof SMART_DB == 'undefined' || typeof jQuery == 'undefined'){
+      setTimeout(function(){_reload_ready();}, 50);
+      } else {
+
+      var images = ["bg_bell.png.png","bg_bg-1.png.png","bg_button-call-1.png.png","bg_button-call-2.png.png","bg_button-chef.png.png","bg_button-list-1.png.png","bg_button-list-2.png.png","bg_button-menu.png.png","bg_button-restaurant.png.png","bg_cart.png.png","bg_food-pic-back.png.png","bg_food-pic.jpg.png","bg_food-pic-medium.jpg.png","bg_food-pic-small.jpg.png","bg_home-1.png.png","bg_home-2.png.png","bg_language-1.png.png","bg_language-2.png.png","bg_login.png.png","bg_logo.jpg.png","bg_logo.png.png","bg_menu-Arrowback.png.png","bg_menu-Arrowforward.png.png","bg_menu-bg-2.jpg.png","bg_menu-bg.png.png","bg_menu-button.png.png","bg_menu-line.png.png","bg_menu-sample.jpg.png","bg_permutation-1-1.png.png","bg_permutation-1-2.png.png","bg_permutation-2-1.png.png","bg_permutation-2-2.png.png","bg_permutation-3-1.png.png","bg_permutation-3-2.png.png","bg_price-button-1.png.png","bg_search.png.png"];
+      loadimages(images);
+      }
+      }
+      loadjs(_reload_ready, 'jquery.min', 'jquery.md5', 'db');
+    </script>
+</body>
+</html>

@@ -232,19 +232,34 @@ function firelogic(){
 $(document).ready(function(){
     $("body").addClass('bg-1_png');
     $("#language_menu").hide();
-    $('#menu_chooser').hide();
+    $('#menu_bar').hide();
     $('#language').click(function(){
 	$('#language_menu').show();
     });
     var lanc = new webkit_click('language', {onClick : function(){
 	$('#language_menu').show();
     }});
-    new webkit_click('index-page', {onClick:function(){
-	$('#language_menu').hide();
-	$('#menu_chooser').hide();
-    }});
     new webkit_click('menu_pic', {onClick:function(){
-	$('#menu_chooser').show();
+	$('#menu_bar').show();
 	$('#menu_list').show();
+	return false;
+    }});
+
+    new webkit_click('index-page', {onClick:function(){
+	console.log('fire');
+	$('#language_menu').hide();
+	$('#menu_bar').hide();
+    }});
+    function clear_language_select(){
+	$('#chinese_selector').removeClass('languageselect');
+	$('#english_selector').removeClass('languageselect');
+    }
+    new webkit_click('chinese_selector', {onClick:function(){
+	clear_language_select();
+	$('#chinese_selector').addClass('languageselect');
+    }});
+    new webkit_click('english_selector', {onClick:function(){
+	clear_language_select();
+	$('#english_selector').addClass('languageselect');
     }});
 });
