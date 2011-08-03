@@ -40,7 +40,7 @@ var SMART_DB = {
 	this.dbname = this.config.dbname || "SmartMenu";
 	this.dbversion = this.config.version || "1.5";
 	this.dbdesc = this.config.desc || "The Smart Menu DB";
-	this.dbsize = this.config.size || (10 * 1024 * 1024); // bytes
+	this.dbsize = this.config.size || (100 * 1024 * 1024); // bytes
 	return this._init_db();
     },
 

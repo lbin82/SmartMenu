@@ -154,6 +154,7 @@ var SMART_MENU_INDEX = function(){
 	// $('body').css({'background-image' : "url(" + res_store.bg-1 + ")"});
     }
     this.draw = function(res){
+	/*
 	var self = this;
 	// add the backgroud
 	$('html').css({'background-image' : 'url("' + res['bg-1.png'] + '") !important;'});
@@ -181,7 +182,7 @@ var SMART_MENU_INDEX = function(){
 	$('#chef').append(logom);
 
 	var logom = document.createElement('image');
-	logom.src = res['button-Restaurant.png'];
+	logom.src = res['button-restaurant.png'];
 	logom.id = 'restaurant';
 	$('#restaurant').append(logom);
 
@@ -190,8 +191,23 @@ var SMART_MENU_INDEX = function(){
 	logom.id = 'menuimg';
 	$('#menu').append(logom);
 
-	// 绑定按钮事件
+	// 加载参谱图标
+	var logom = document.createElement('image');
+	logom.src = res['menu-sample.jpg'];
+	logom.id = 'c_menu_image';
+	$('#c_menu').append(logom);
+	$('#c_menu').append("中文餐谱");
 
+	var logom = document.createElement('image');
+	logom.src = res['menu-sample.jpg'];
+	logom.id = 'e_menu_image';
+	$('#e_menu').append(logom);
+	$('#e_menu').append("英文菜谱");
+
+
+	// 绑定按钮事件
+*/
+	$("body").removeClass('ui-mobile-viewport').addClass('bg-1_png');
     }
 }
 
@@ -202,7 +218,7 @@ function firelogic(){
     } else {
 	var _G_INDEX = new SMART_MENU_INDEX();
 	_G_INDEX.initialize();
-	var sys_want = ['menu-Sample.jpg', 'language-1.png', 'language-2.png', 'button-chef.png', 'button-menu.png', 'button-Restaurant.png', 'login.png', 'logo.jpg', 'bg-1.png'];
+	var sys_want = ['menu-sample.jpg', 'language-1.png', 'language-2.png', 'button-chef.png', 'button-menu.png', 'button-restaurant.png', 'login.png', 'logo.jpg', 'bg-1.png'];
 	load_db(sys_want, function(res){
 	    /**
 	     * 开始绘制图片
@@ -213,5 +229,22 @@ function firelogic(){
     }
 }
 
-firelogic();
-
+$(document).ready(function(){
+    $("body").addClass('bg-1_png');
+    $("#language_menu").hide();
+    $('#menu_chooser').hide();
+    $('#language').click(function(){
+	$('#language_menu').show();
+    });
+    var lanc = new webkit_click('language', {onClick : function(){
+	$('#language_menu').show();
+    }});
+    new webkit_click('index-page', {onClick:function(){
+	$('#language_menu').hide();
+	$('#menu_chooser').hide();
+    }});
+    new webkit_click('menu_pic', {onClick:function(){
+	$('#menu_chooser').show();
+	$('#menu_list').show();
+    }});
+});

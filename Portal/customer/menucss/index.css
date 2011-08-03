@@ -6,14 +6,14 @@ body{
 }
 
 .navlog {
-    margin-top: 30px;
+    margin-top: 15px;
     width: 100%;
     float:left;
     height: 30px;
 }
 
 .index-logo{
-    margin-left:30px;
+    margin-left:15px;
     float:left;
 }
 
@@ -23,19 +23,27 @@ body{
 }
 
 .index-welcome {
-    font: bold 330%/100% "Lucida Grande", Arial, sans-serif;
+    font: bold 55px "Lucida Grande", Arial, sans-serif;
     margin: 0;
     top: 3px;
-    margin-right:20px;
-    color: #464646;
-    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#aaa)) rgba(128, 128, 128, .2);
+    margin-right: 15px;
+    
     float:right;
+}
+
+.b_font{
+    color: #464646;
+    FILTER: mask(color=#a09261) dropshadow(color=#000000,offx=-3,offy=-3,positive=1) chroma(color=#a09261);
+    opacity: 0.8;
+    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(245, 245,245, 0)), to(rgba(161,161,161,1)));   
+    text-decoration: none;   
 }
 
 .product-name{
     width:100%;
     vertical-align :middle;
-    height:300px;
+    height:200px;
+    margin-top: 120px;
     margin-left:auto;
     margin-right:auto;
     display:block;
@@ -47,20 +55,72 @@ body{
     float :left;
     text-align:center;
     height:90px;
-    padding-left:33%;
+    padding-left:27%;
 }
 .oper-selector div{
     float:left;
     width:90px;
     height:90px;
-    margin-right:30px;
+    margin-right:80px;
 }
 
+.menu-chooser {
+    float:left;
+    margin-top:20px;
+    height:109px;
+    Background-color:#2e2e2b;
+    text-align:center;
+    width:100%;
+}
+.menu-list {
+    float:left;
+    width:100%;
+    text-align:center;
+    vertical-align:middle;
+    margin-left:30%;
 
-
-
-
-
-
-
-
+}
+.menu-list div{
+    float:left;
+    margin-right:20px;
+    width:300px;
+    display:block;
+    height:109px;
+    margin-right : auto;
+    margin-left:auto;
+    margin-top:20px;
+    overflow:hidden;
+    inline-height:109px;
+    font: bold 24px "Lucida Grande", Arial, sans-serif;
+    display: table-cell;
+    vertical-align:middle;
+}
+.language-menu{
+    width:100%;
+    float:left;
+    height:60px;
+    text-align:left;
+    margin:0;
+    padding:0;
+    margin-left:45px;
+}
+.language-item{
+    margin-left:30px;
+    background-color:#f5f5f5;
+    height:30px;
+    width:100px;
+    display:block;
+    text-align:center;
+    padding-top:10px;
+color:#563328;
+}
+.languageselect {
+    background-color:#563328;
+    color : #f5f5f5;
+}
+.cn {
+font-size:14px;
+}
+.en {
+font-size:12px;
+}

@@ -1,64 +1,53 @@
 <html>
   <!-- direct mode end -->
   <head>
-
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-    <link rel="apple-touch-startup-image" href="../res/images/python-ico.png" />
-    <link rel="stylesheet" href="../res/jquery.mobile.css" type="text/css" charset="utf-8">
-    <link rel="stylesheet" href="../res/css/index.css" type="text/css" charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no">
-    <script language="javascript" src="../res/js/db.js"></script>
-    <script language="javascript" src="../res/js/jquery.min.js"></script>
-    <script language="javascript" src="../res/js/jquery.mobile.min.js"></script>
-    <script language="javascript" src="../res/js/image.js"></script>
-    <script language="javascript" src="../res/js/locale.js"></script>
-    <script language="javascript" src="../res/js/index.js"></script>
-    <script type="text/javascript" src="../res/js/webkitdragdrop.js"></script>
-    <style>
-      .header_bar {
-      
-      }
-      body {
-      background
-}
-    </style>
-    <title>特效测试页面</title>
+    <!-- /** -->
+    <!-- * 由于种种原因,需要startup.js与index.html平级 -->
+    <!-- *  -->
+    <!-- */ -->
+    <script language="javascript" src="../menujs/jquery.min.js"></script>
+    <script language="javascript" src="../menujs/jquery.mobile.min.js"></script>
+    <script language="javascript" src="../menujs/webkitdragdrop.js"></script>
+    <script language="javascript" src="../menujs/index.js"></script>
+    <link rel="stylesheet" href="../menuimages/index.css" />
+    <link rel="stylesheet" href="../menucss/jquery.mobile/jquery.mobile-1.0b1.min.css" /> 
   </head>
   <body>
-    <div  data-role="page" class="ui-header header_bar"> 
-      <div  data-role="header">
-	<h1>SmartMenu</h1>
-	<b rel="external" class="home-menu">&nbsp;&nbsp;</b>
-	<!-- 写成class类型的继承关系太低了.于是直接写style -->
-	<input type="text" class="home-search" style="height:25px;width:121px;position:absolute;right:50px;top:.4em; background-image : url('/res/images/search.png');over-flow:hidden;" />
-      </div> <!-- end of header -->
-      <div class="content">
-	<!-- 这是导航 -->
-	<div class="nav-bar-hidden" id="nav_hidden">
-	  <div class="nav-click-point" id="nav_click_point"></div>
-	  <div class="nav-position" id="nav_position"></div>
+    <div id="index-page" data-role="page" data-theme="a" class="bg-1_png">
+      <div class="navlog">
+	<div id="logo" class="index-logo"></div>
+	<div id="language" class="index-language"></div>
+	<div id="welcome" class="index-welcome"></div>
+      </div> <!-- navlog -->
+
+      <ul class="language-menu" id="language_menu">
+	<li class="language-item cn languageselect" id="chinese_selector">中&nbsp;&nbsp;&nbsp;文</li>
+	<li class="language-item en" id="english_selector">English</li>
+      </ul>
+      <div style="clear:both;"></div>
+      <div class="product-name" id="product_name b_font"></div>
+
+      <div class="oper-selector">
+	<div class="selector-handler restaurant" id="restaurant"></div>
+	<div class="selector-handler chef" id="chef"></div>
+	<div class="selector-handler menu" id="menu_pic"></div>
+      </div>
+
+      <div class="menu-chooser" id="menu_chooser">
+	<div id="trigle" class="trigle"></div>
+	<div id="menus_list" class="menu-list">
+	  <div id="c_menu" class="c-menu b_font">中餐菜本 </div>
+	  <div id="e_menu" class="e-menu b_font">西餐菜本 </div>
 	</div>
-	<!-- 导航结束 -->
-	<!-- 大分类开始 -->
-	<div class="cate-bar" id="cate_bar">
-	  <!-- 大分类文字 -->
-	  <div class="cate-character" id='cate_character'>
-	  </div>
-	  <!-- 大分类文字结束 -->
-	  <div class="cate-selector" id="cate_selector">
-	    <div name="list_view"><img src="/res/images/permutation_1_1.png" /></div>
-	    <div name="pic_view"><img src="/res/images/permutation_2_1.png" /></div>
-	    <div name="slide_view"><img src="/res/images/permutation_3_1.png" /></div>
-	    </div>
-	</div>
-	<!-- 大分类结束 -->
-	
-      </div><!-- end of content -->
-    </div> <!-- end of index -->
+      </div>
+    </div>
+
   </body>
 </html>
